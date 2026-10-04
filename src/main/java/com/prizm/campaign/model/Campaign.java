@@ -22,6 +22,9 @@ public class Campaign {
 
     private boolean active;
 
+    @Column(name = "max_voucher_per_user")
+    private  int maxVoucherPerUser;
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
@@ -34,4 +37,10 @@ public class Campaign {
     public void setRemainingStock(int remainingStock) { this.remainingStock = remainingStock; }
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+    public int getMaxVoucherPerUser() {
+        return maxVoucherPerUser;
+    }
+    public void setMaxVoucherPerUser(int maxVoucherPerUser) {
+        this.maxVoucherPerUser = maxVoucherPerUser;
+    }
 }
