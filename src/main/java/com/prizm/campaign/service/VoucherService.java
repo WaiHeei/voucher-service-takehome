@@ -32,6 +32,9 @@ public class VoucherService {
     private AuditClient auditClient;
 
     public RedeemResponse redeem(String code, String userId) {
+        if (userId == null || userId.isBlank()) {
+            return RedeemResponse.fail("UserId must not be blank");
+        }
 
         Voucher voucher = voucherRepository.findByCode(code);
         if (voucher == null) {
@@ -54,6 +57,12 @@ public class VoucherService {
 
         if (campaign.getRemainingStock() <= 0) {
             return RedeemResponse.fail("Campaign out of stock");
+        }
+
+        long count = redemptionRepository.countByCampaignIdAndUserId(campaign.getId(), userId);
+
+        if (count >= campaign.getMaxVoucherPerUser()){
+            return RedeemResponse.fail("User " + userId + " has reached the maximum voucher redemption limit for Campaign " + campaign.getId());
         }
 
         voucher.setStatus("REDEEMED");
